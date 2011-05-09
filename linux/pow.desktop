@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Pow
+Type=Application
+Exec=~/.config/Pow/Current/bin/pow
+Terminal=false
+Icon=Pow
+Comment=Pow Rack server.
+NoDisplay=false
+Categories=Development;

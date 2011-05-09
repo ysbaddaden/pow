@@ -1,0 +1,26 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:       pow
+# Required-Start: $network $remote_fs $syslog
+# Required-Stop:  $network $remote_fs $syslog
+# Default-Start:  2 3 4 5
+# Default-Stop:   1
+# Description:    POW Rack server.
+### END INIT INFO
+
+set +e   # Don't exit on error status
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/local/bin/pow
+NAME=pow
+DESC="POW Rack server"
+
+case "$1" in
+  start)
+    start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid --exec $DAEMON
+    ;;
+  stop)
+    start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile /var/run/$NAME.pid --name $NAME
+    ;;
+esac
+
