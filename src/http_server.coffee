@@ -82,7 +82,7 @@ module.exports = class HttpServer extends connect.HTTPServer
 
   # The first middleware in the stack logs each incoming request's
   # source address, method, hostname, and path to the access log
-  # (`~/Library/Logs/Pow/access.log` by default).
+  # (`~/.config/Pow/Logs/access.log` by default).
   logRequest: (req, res, next) =>
     @accessLog.info "[#{req.socket.remoteAddress}] #{req.method} #{req.headers.host} #{req.url}"
     @requestCount++
