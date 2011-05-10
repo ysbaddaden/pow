@@ -14,7 +14,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/local/bin/pow
 NAME=pow
 DESC="POW Rack server (iptables conf)."
-HTTP_PORT=20599
+HTTP_PORT=20559
 
 case "$1" in
   start)
