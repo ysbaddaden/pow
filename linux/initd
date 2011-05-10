@@ -5,7 +5,7 @@
 # Required-Stop:  $network $remote_fs $syslog
 # Default-Start:  2 3 4 5
 # Default-Stop:   1
-# Description:    POW Rack server.
+# Description:    POW Rack server (iptables conf).
 ### END INIT INFO
 
 set +e   # Don't exit on error status
@@ -13,14 +13,22 @@ set +e   # Don't exit on error status
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/local/bin/pow
 NAME=pow
-DESC="POW Rack server"
+DESC="POW Rack server (iptables conf)."
+HTTP_PORT=20599
 
 case "$1" in
   start)
-    start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid --exec $DAEMON
+    if [ `iptables -t nat -L | grep $HTTP_PORT | wc -l` -eq 0 ] ; then
+      iptables -t nat -A OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports $HTTP_PORT
+    fi
     ;;
   stop)
-    start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile /var/run/$NAME.pid --name $NAME
+    RULE_NUM=`iptables -t nat -L --line-numbers | grep $HTTP_PORT | awk -F " " '{ print $1 }'`
+    iptables -t nat -D OUTPUT $RULE_NUM
+    ;;
+  restart)
+    $0 stop
+    $0 start
     ;;
 esac
 
