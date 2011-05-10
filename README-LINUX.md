@@ -25,7 +25,7 @@ need to check if the rule has been loaded before executing it.
 IPv6 would require something like the following, but I haven't been able to
 make it work yet:
 
-    $ sudo iptables -t mangle -A PREROUTING -p tcp --dport 80 -j TPROXY --on-port 20559
+    $ sudo iptables  -t mangle -A PREROUTING -p tcp --dport 80 -j TPROXY --on-port 20559
     $ sudo ip6tables -t mangle -A PREROUTING -p tcp -d ::1 --dport 80 -j TPROXY --on-port 20559
 
 ## DNS Server

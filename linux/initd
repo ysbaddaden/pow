@@ -5,7 +5,7 @@
 # Required-Stop:  $network $remote_fs $syslog
 # Default-Start:  2 3 4 5
 # Default-Stop:   1
-# Description:    POW Rack server (iptables conf).
+# Description:    POW Rack server (iptables configuration).
 ### END INIT INFO
 
 set +e   # Don't exit on error status
@@ -13,7 +13,7 @@ set +e   # Don't exit on error status
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/local/bin/pow
 NAME=pow
-DESC="POW Rack server (iptables conf)."
+DESC="POW Rack server (iptables configuration)."
 HTTP_PORT=20559
 
 case "$1" in
