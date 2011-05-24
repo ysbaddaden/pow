@@ -89,7 +89,7 @@ Starting Pow on user session is quite easy: you just have to create a
     Encoding=UTF-8
     Name=Pow
     Type=Application
-    Exec=~/.config/Pow/Current/bin/pow
+    Exec=~/.config/Pow/Current/bin/pow.sh
     Terminal=false
     Icon=Pow
     Comment=Pow Rack server.
