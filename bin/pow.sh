@@ -10,7 +10,11 @@ NODE_PATH="$POW_ROOT/node_modules:$NODE_PATH"
 export NODE_PATH POW_BIN
 
 # loads RVM if available
-[ -f ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm
+if [ -f ~/.rvm/scripts/rvm ] ; then
+  source ~/.rvm/scripts/rvm
+elif [ -f /usr/local/rvm/scripts/rvm ] ; then
+  source /usr/local/rvm/scripts/rvm
+fi
 
 # kills any running instance
 PID=`ps x | awk -F " " "{ if ( \\$5 == \\"$POW_ROOT/bin/node\\" && \\$6 == \\"$POW_ROOT/lib/command.js\\" ) print \\$1 }"`
