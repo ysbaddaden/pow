@@ -20,11 +20,14 @@ case "$1" in
   start)
     if [ `iptables -t nat -L | grep $HTTP_PORT | wc -l` -eq 0 ] ; then
       iptables -t nat -A OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports $HTTP_PORT
+      #iptables -t nat -A OUTPUT -p tcp -d 10.0.2.2  --dport 80 -j REDIRECT --to-ports $HTTP_PORT
     fi
     ;;
   stop)
-    RULE_NUM=`iptables -t nat -L --line-numbers | grep $HTTP_PORT | awk -F " " '{ print $1 }'`
-    iptables -t nat -D OUTPUT $RULE_NUM
+    RULE_NUMS=`iptables -t nat -L --line-numbers -n | grep $HTTP_PORT | awk '{a[i++]=$0} END { for (j=i-1; j>=0;) print a[j--] }' | awk -F " " '{ print $1 }'`
+    for RULE_NUM in $RULE_NUMS ; do
+      iptables -t nat -D OUTPUT $RULE_NUM
+    done
     ;;
   restart)
     $0 stop
