@@ -9,6 +9,9 @@ NODE_PATH="$POW_ROOT/node_modules:$NODE_PATH"
 
 export NODE_PATH POW_BIN
 
+# loads user config
+source ~/.powconfig
+
 # loads RVM if available
 if [ -f ~/.rvm/scripts/rvm ] ; then
   source ~/.rvm/scripts/rvm
@@ -21,5 +24,5 @@ PID=`ps x | awk -F " " "{ if ( \\$5 == \\"$POW_ROOT/bin/node\\" && \\$6 == \\"$P
 [ "$PID" == "" ] || kill $PID
 
 # starts instance
-exec "$POW_ROOT/bin/node" "$POW_ROOT/lib/command.js"
+exec "$POW_ROOT/bin/node" "$POW_ROOT/lib/command.js" $*
 
