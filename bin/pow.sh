@@ -9,8 +9,10 @@ NODE_PATH="$POW_ROOT/node_modules:$NODE_PATH"
 
 export NODE_PATH POW_BIN
 
-# loads user config
-source ~/.powconfig
+# loads user config if available
+if [ -f ~/.powconfig ] ; then
+  source ~/.powconfig
+fi
 
 # loads RVM if available
 if [ -f ~/.rvm/scripts/rvm ] ; then
