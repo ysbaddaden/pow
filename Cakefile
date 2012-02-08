@@ -50,11 +50,19 @@ task 'build', 'Compile CoffeeScript source files', ->
 task 'watch', 'Recompile CoffeeScript source files when modified', ->
   build true
 
+task 'pretest', "Install test dependencies", ->
+  exec 'which ruby gem', (err) ->
+    throw "ruby not found" if err
+
+    exec 'ruby -rubygems -e \'require "rack"\'', (err) ->
+      if err
+        exec 'gem install rack', (err, stdout, stderr) ->
+          throw err if err
+
 task 'test', 'Run the Pow test suite', ->
   build ->
     process.env["RUBYOPT"]  = "-rubygems"
     process.env["NODE_ENV"] = "test"
-    require.paths.unshift __dirname + "/lib"
 
     {reporters} = require 'nodeunit'
     process.chdir __dirname
@@ -71,8 +79,9 @@ task 'install', 'Install pow configuration files', ->
 
   createHostsDirectory = (callback) ->
     sh 'mkdir -p "$HOME/Library/Application Support/Pow/Hosts"', (err) ->
-      return callback err if err
-      sh 'ln -sf "$HOME/Library/Application Support/Pow/Hosts" ~/.pow', callback
+      fs.stat "#{process.env['HOME']}/.pow", (err) ->
+        if err then sh 'ln -s "$HOME/Library/Application Support/Pow/Hosts" "$HOME/.pow"', callback
+        else callback()
 
   installLocal = (callback) ->
     console.error "*** Installing local configuration files..."

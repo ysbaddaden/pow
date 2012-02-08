@@ -122,7 +122,7 @@ module.exports = class RackApplication
   # `.rvmrc`.
   loadEnvironment: (callback) ->
     @queryRestartFile =>
-      @loadScriptEnvironment null, (err, env) =>
+      @loadScriptEnvironment @configuration.env, (err, env) =>
         if err then callback err
         else @loadRvmEnvironment env, (err, env) =>
           if err then callback err
@@ -151,14 +151,14 @@ module.exports = class RackApplication
 
       # Set the application's state to ready. Then create the Nack
       # pool instance using the `workers` and `timeout` options from
-      # the application's configuration.
+      # the application's environment or the global configuration.
       else
         @state = "ready"
 
         @pool = nack.createPool join(@root, "config.ru"),
           env:  env
-          size: @configuration.workers
-          idle: @configuration.timeout * 1000
+          size: env?.POW_WORKERS ? @configuration.workers
+          idle: (env?.POW_TIMEOUT ? @configuration.timeout) * 1000
 
         # Log the workers' stderr and stdout, and log each worker's
         # PID as it spawns and exits.
