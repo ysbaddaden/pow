@@ -22,9 +22,9 @@ elif [ -f /usr/local/rvm/scripts/rvm ] ; then
 fi
 
 # kills any running instance
-PID=`ps x | awk -F " " "{ if ( \\$5 == \\"$POW_ROOT/bin/node\\" && \\$6 == \\"$POW_ROOT/lib/command.js\\" ) print \\$1 }"`
+PID=`ps x | awk -F " " "{ if ( \\$5 == \\"node\\" && \\$6 == \\"$POW_ROOT/lib/command.js\\" ) print \\$1 }"`
 [ "$PID" == "" ] || kill $PID
 
 # starts instance
-exec "$POW_ROOT/bin/node" "$POW_ROOT/lib/command.js" $*
+exec "node" "$POW_ROOT/lib/command.js" $*
 
