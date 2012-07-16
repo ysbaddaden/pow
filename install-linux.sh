@@ -1,8 +1,11 @@
 #! /bin/bash
 source /etc/lsb-release
 
-if [ -z "$SRC" ]; then echo "test"; exit 1; fi
-ROOT="`basename $0`"
+if [ -z "$SRC" ]; then echo "Usage: SRC=/path/to/pow/ $0"; exit 1; fi
+echo "SRC is set to $SRC"
+
+mkdir -p ~/.config/Pow/
+ln -sfT $SRC ~/.config/Pow/Current/
 
 # Starts Pow on user session:
 cp $SRC/linux/pow.desktop $HOME/.config/autostart/pow.desktop
